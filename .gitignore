@@ -1,0 +1,9 @@
+.*
+*.py[cdo]
+*.egg
+*.egg-info/
+*.xml
+__pycache__/
+build/
+dist/
+htmlcov/
