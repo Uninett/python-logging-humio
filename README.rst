@@ -16,6 +16,10 @@ Formatters
     Turns every attribute on the log record into a key-value pair, as suitable
     for the Humio "kv"-parser. Use with ``HumioHandler``.
 
+``humiologging.formatters.HumioJSONFormatter``
+    Turns the log-record into a json object, as suitable for the Humio
+    "json"-parser. Used by ``HumioJSONHandler``.
+
 Handlers
 --------
 
@@ -24,12 +28,12 @@ Handlers
     that Humio can parse, like ``HumioKVFormatter``.
 
 ``humiologging.handlers.HumioJSONHandler``
-    Sends json-formatted log messages to Humio. Does not need a formatter. If
-    a formatter is set, this will affect the key ``formattedRecord``.
+    Sends json-formatted log messages to Humio. Does not need a formatter.
 
 Positional arguments:
 
-    humio_host, ingest_token
+    :humio_host: The url of the humio ingest host
+    :ingest_token: The API token for a Humio repo
 
 Keyword arguments:
 
@@ -56,9 +60,8 @@ For parser ``json``::
     logging.basicConfig(handlers=[HumioJSONHandler(host, token)])
     logging.error('This is a test')
 
-In humio you should get a single record with two keys: one ``record`` key that
-dumps everything in the log-record, and one ``formattedRecord`` key that has
-the value ``"This is a test"``.
+In Humio you should get a single record with one key per every attribute in the
+log record.
 
 For parser ``kv``::
 
@@ -66,6 +69,5 @@ For parser ``kv``::
     logging.basicConfig(handlers=[HumioHandler(host, token).setFormatter(HumioKVFormatter())])
     logging.error('This is a test')
 
-In humio you should get a single record with two keys: one ``record`` key that
-dumps everything in the log-record, and one ``formattedRecord`` key that has
-the value ``"This is a test"``.
+In Humio you should get a single record with,a string containing many key=value
+pairs.
