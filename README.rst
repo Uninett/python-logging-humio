@@ -60,8 +60,9 @@ For parser ``json``::
     logging.basicConfig(handlers=[HumioJSONHandler(host, token)])
     logging.error('This is a test')
 
-In Humio you should get a single record with one key per every attribute in the
-log record.
+In Humio you should get a single entry with one key for every attribute in the
+log record. One additional key `formattedMessage` contains the human-readable
+format set in the logging config as a string.
 
 For parser ``kv``::
 
@@ -70,4 +71,5 @@ For parser ``kv``::
     logging.error('This is a test')
 
 In Humio you should get a single record with,a string containing many key=value
-pairs.
+pairs. One additional key `formattedMessage` contains the human-readable
+format set in the logging config as a string.
