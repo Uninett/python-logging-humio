@@ -40,6 +40,7 @@ class HumioJSONFormatter(logging.Formatter):
         event = {
             'timestamp': timestamp,
             'attributes': recorddict,
+            'rawstring': message,
         }
         blob = {'events': [event]}
         return blob

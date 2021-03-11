@@ -54,7 +54,8 @@ Run automated tests with `tox <https://tox.readthedocs.io/en/latest/>`_.
 To test against humio: you need the hostname of the humio instance and an
 ingest_token for a repo with parser set to the handler you want to test.
 
-For parser ``json``::
+With no parser set
+------------------
 
     import logging
     logging.basicConfig(handlers=[HumioJSONHandler(host, token)])
@@ -64,7 +65,8 @@ In Humio you should get a single entry with one key for every attribute in the
 log record. One additional key `formattedMessage` contains the human-readable
 format set in the logging config as a string.
 
-For parser ``kv``::
+For parser ``kv``
+-----------------
 
     import logging
     logging.basicConfig(handlers=[HumioHandler(host, token).setFormatter(HumioKVFormatter())])

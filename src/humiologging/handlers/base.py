@@ -3,7 +3,7 @@ import logging
 from humiolib.HumioClient import HumioIngestClient
 
 from ..formatters import HumioJSONFormatter
-from ..utils import convert_epoch_to_isoformat, get_host
+from ..utils import get_host
 
 
 __all__ = [
