@@ -35,6 +35,7 @@ class HumioJSONFormatter(logging.Formatter):
         message = super().format(record)
         recorddict = vars(record)
         recorddict['asctime'] = timestamp
+        recorddict['exc_info'] = repr(recorddict['exc_info'])
         event = {
             'timestamp': timestamp,
             'attributes': recorddict,
