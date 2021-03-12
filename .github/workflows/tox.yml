@@ -1,13 +1,17 @@
 name: Test humiologging library
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
     name: "Python ${{ matrix.python-version }}"
     runs-on: ubuntu-latest
     env:
-      USING_COVERAGE: '3.8'
+      USING_COVERAGE: '3.8,3.9'
 
     strategy:
       max-parallel: 4
@@ -25,12 +29,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: "Set up Python ${{ matrix.python-version }}"
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install test dependencies
+    - name: "Install test dependencies"
       # if: steps.cache.outputs.cache-hit != 'true'
       run: |
         set -xe
@@ -39,11 +43,11 @@ jobs:
         python -m pip install --upgrade pip "setuptools<46" wheel
         python -m pip install --upgrade virtualenv tox tox-gh-actions coverage
 
-    - name: Lint with flake8
+    - name: "Lint with flake8"
       run: |
         python -m tox -e flake8-critical
 
-    - name: Test with tox
+    - name: "Test with tox for ${{ matrix.python-version }}"
       run: |
         python -m tox
 
@@ -54,7 +58,7 @@ jobs:
         python -m coverage combine
         python -m coverage xml
 
-    - name: Upload to Codecov
+    - name: "Upload to Codecov"
       if: "contains(env.USING_COVERAGE, matrix.python-version)"
       uses: codecov/codecov-action@v1
       with:
