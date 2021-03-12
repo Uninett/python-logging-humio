@@ -2,7 +2,7 @@
 Logging to Humio
 ================
 
-.. image:: https://github.com/Uninett/python-logging-humio/actions/workflows/CI/badge.svg?branch=main
+.. image:: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml/badge.svg
      :target: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml
      :alt: CI Status
 
