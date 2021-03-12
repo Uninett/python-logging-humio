@@ -10,8 +10,6 @@ jobs:
   test:
     name: "Python ${{ matrix.python-version }}"
     runs-on: ubuntu-latest
-    env:
-      USING_COVERAGE: '3.8,3.9'
 
     strategy:
       max-parallel: 4
@@ -52,14 +50,11 @@ jobs:
         python -m tox
 
     - name: "Combine coverage"
-      if: "contains(env.USING_COVERAGE, matrix.python-version)"
       run: |
         set -xe
-        python -m coverage combine
         python -m coverage xml
 
     - name: "Upload to Codecov"
-      if: "contains(env.USING_COVERAGE, matrix.python-version)"
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
