@@ -2,8 +2,8 @@
 Logging to Humio
 ================
 
-.. image:: https://github.com/Uninett/python-humio-logging/workflows/CI/badge.svg?branch=master
-     :target: https://github.com/Uninett/python-humio-logging/actions?workflow=CI
+.. image:: https://github.com/Uninett/python-logging-humio/workflows/CI/badge.svg?branch=master
+     :target: https://github.com/Uninett/python-logging-humio/actions?workflow=CI
      :alt: CI Status
 
 This package contains logging handlers and formatters useful for logging
