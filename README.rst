@@ -6,6 +6,8 @@ This package contains logging handlers and formatters useful for logging
 to `Humio <https://www.humio.com/>`_. It's sole runtime dependency is
 `humiolib <https://github.com/humio/python-humio>`_.
 
+Runs and tested on Python 3.6, 3.7, 3.8, 3.9.
+
 Contents
 ========
 
