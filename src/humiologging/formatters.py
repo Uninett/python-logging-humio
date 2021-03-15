@@ -1,6 +1,6 @@
 import logging
 
-from .utils import convert_epoch_to_isoformat
+from .utils import convert_epoch_to_isoformat, make_safe_for_json
 
 
 __all__ = [
@@ -24,6 +24,7 @@ class HumioKVFormatter(logging.Formatter):
         kv['args'] = None if not kv['args'] else ','.join(kv['args'])
         kv['msg'] = repr(kv['msg'])
         kv['formattedMessage'] = repr(formattedMessage)
+        kv = make_safe_for_json(kv)
         return ' '.join(f'{k}={v}' for k, v in kv.items())
 
 
@@ -39,8 +40,10 @@ class HumioJSONFormatter(logging.Formatter):
         message = super().format(record)
         recorddict = vars(record)
         recorddict['asctime'] = timestamp
-        recorddict['exc_info'] = repr(recorddict['exc_info'])
         recorddict['formattedMessage'] = message
+        if not recorddict['args']:
+            recorddict['args'] = None
+        recorddict = make_safe_for_json(recorddict)
         event = {
             'timestamp': timestamp,
             'attributes': recorddict,

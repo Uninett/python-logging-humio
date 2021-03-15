@@ -5,6 +5,7 @@ import socket
 __all__ = [
     'convert_epoch_to_isoformat',
     'get_host',
+    'make_safe_for_json',
 ]
 
 
@@ -33,3 +34,11 @@ def get_host():
     if fqdns:
         return fqdns[0]
     return ips[0]
+
+
+def make_safe_for_json(recorddict):
+    PRIMITIVE_TYPES = (str, int, float, bool, type(None))
+    for key, value in recorddict.items():
+        if not isinstance(value, PRIMITIVE_TYPES):
+            recorddict[key] = repr(value)
+    return recorddict
