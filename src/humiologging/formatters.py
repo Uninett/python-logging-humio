@@ -10,7 +10,7 @@ __all__ = [
 
 
 class HumioKVFormatter(logging.Formatter):
-    """Format a LogRecord into Humio kv format
+    """Format a LogRecord into Humio unstructured kv format
 
     Avoid equals signs in the logmessage itself as that might be
     interpreted as another key value pair."""
@@ -28,7 +28,11 @@ class HumioKVFormatter(logging.Formatter):
 
 
 class HumioJSONFormatter(logging.Formatter):
-    """Format a LogRecord into Humio json format"""
+    """Format a LogRecord into Humio structured format
+
+    If this is used with HumioJSONHandler, do not set a parser on the
+    ingest_token. If it is used with another handler, set the parser to
+    "json-for-action"."""
 
     def format(self, record):
         timestamp = convert_epoch_to_isoformat(record.created)
