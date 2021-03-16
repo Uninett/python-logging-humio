@@ -3,8 +3,18 @@ Logging to Humio
 ================
 
 .. image:: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml/badge.svg
-     :target: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml
-     :alt: CI Status
+    :target: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml
+    :alt: CI Status
+
+.. image:: https://img.shields.io/pypi/v/humiologging
+    :target: https://pypi.org/project/humiologging/
+    :alt: PyPI: humiologging
+
+.. image:: https://img.shields.io/pypi/pyversions/humiologging
+    :alt: Python versions: 3.6, 3.7, 3.8, 3.9
+
+.. image:: https://img.shields.io/pypi/l/humiologging
+    :alt: License: Apache 2.0
 
 This package contains logging handlers and formatters useful for logging
 to `Humio <https://www.humio.com/>`_. It's sole runtime dependency is
@@ -14,6 +24,12 @@ Runs and tested on Python 3.6, 3.7, 3.8, 3.9.
 
 Contents
 ========
+
+Installation
+------------
+
+The pacakage on PyPI is named ``humiologging``, same as the package name.
+Install with for instance ``pip install humiologging``.
 
 Formatters
 ----------
