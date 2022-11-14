@@ -94,6 +94,6 @@ For parser ``kv``
     logging.basicConfig(handlers=[HumioHandler(host, token).setFormatter(HumioKVFormatter())])
     logging.error('This is a test')
 
-In Humio you should get a single record with,a string containing many key=value
+In Humio you should get a single record with a string containing many key=value
 pairs. One additional key `formattedMessage` contains the human-readable
 format set in the logging config as a string.
