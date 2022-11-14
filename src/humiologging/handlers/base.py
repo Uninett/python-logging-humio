@@ -31,7 +31,7 @@ class BaseHumioHandler(logging.Handler):
             if not tags:
                 self.tags = {}
             self.tags['host'] = get_host() or 'unknown'
-        self.connection = HumioIngestClient(base_url=self.humio_host, ingest_token=self.ingest_token)
+        self.connection = HumioIngestClient(self.ingest_token, base_url=self.humio_host)
 
     def emit(self, record):
         self.send_to_humio(record)
