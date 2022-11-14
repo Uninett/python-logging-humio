@@ -34,7 +34,11 @@ class BaseHumioHandler(logging.Handler):
         self.connection = HumioIngestClient(self.ingest_token, base_url=self.humio_host)
 
     def emit(self, record):
-        self.send_to_humio(record)
+        try:
+            self.send_to_humio(record)
+        except Exception as e:
+            if self.log_self:
+                self.log.warn(f"Could not access Humio: {e}", exc_info=True)
 
     def send_to_humio(self, record):
         raise NotImplementedError
