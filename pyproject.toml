@@ -1,0 +1,32 @@
+[build-system]
+requires = [
+    "flit_core>=3.2",
+]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "humiologging"
+description = "Log utilities for Humio: Handlers, formatters"
+license = {file = "LICENSE"}
+readme = "README.rst"
+authors = [{name = "Uninett Opensource", email = "opensource@uninett.no"}]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: System :: Logging",
+    "Topic :: System :: Monitoring",
+]
+dependencies = ["humiolib"]
+dynamic = ["version"]
+requires-python = ">=3.6"
+
+[project.urls]
+Homepage = "https://github.com/Uninett/humiologging"
