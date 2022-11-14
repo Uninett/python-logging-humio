@@ -22,11 +22,14 @@ _logger.setLevel(logging.ERROR)
 
 class BaseHumioHandler(logging.Handler):
 
-    def __init__(self, humio_host, ingest_token, level=logging.NOTSET, tags=None, add_host_tag=None, **_):
+    def __init__(self, humio_host, ingest_token, level=logging.NOTSET, tags=None, add_host_tag=None, log_self=False, **_):
         super().__init__(level=level)
         self.humio_host = humio_host
         self.ingest_token = ingest_token
         self.tags = tags
+        self.log_self = log_self
+        if log_self:
+            self.log = logging.getLogger(__name__)
         if add_host_tag:
             if not tags:
                 self.tags = {}
