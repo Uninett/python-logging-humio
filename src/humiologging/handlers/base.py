@@ -39,6 +39,8 @@ class BaseHumioHandler(logging.Handler):
     def emit(self, record):
         try:
             self.send_to_humio(record)
+        except NotImplementedError:
+            raise
         except Exception as e:
             if self.log_self:
                 self.log.warn(f"Could not access Humio: {e}", exc_info=True)
