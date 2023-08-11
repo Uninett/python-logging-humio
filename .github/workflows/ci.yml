@@ -14,7 +14,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
         set -xe
         python -VV
         python -m site
-        python -m pip install --upgrade pip "setuptools<46" wheel
+        python -m pip install --upgrade pip flit wheel
         python -m pip install --upgrade virtualenv tox tox-gh-actions coverage
 
     - name: "Lint with flake8"
