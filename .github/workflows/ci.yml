@@ -7,8 +7,52 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-package:
+    name: "Build & verify package"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "actions/checkout@v3"
+      - uses: "actions/setup-python@v4"
+        with:
+          python-version: "3.11"
+
+      - name: "Install build and twine"
+        run: "python -m pip install build twine"
+      - name: "Build package"
+        run: "python -m build"
+      - name: "List result"
+        run: "ls -l dist"
+      - name: "Check long_description"
+        run: "python -m twine check dist/*"
+
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: "Set up Python"
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: "Install test dependencies"
+      # if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        set -xe
+        python -VV
+        python -m site
+        #python -m pip install --upgrade pip flit wheel
+        python -m pip install --upgrade tox
+
+    - name: "Lint with flake8 (critical)"
+      run: |
+        python -m tox -e flake8-critical
+
   test:
     name: "Python ${{ matrix.python-version }}"
+    needs: [lint, build-package]
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,18 +61,18 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: cache
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('setup.cfg') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
     - name: "Set up Python ${{ matrix.python-version }}"
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -41,40 +85,42 @@ jobs:
         python -m pip install --upgrade pip flit wheel
         python -m pip install --upgrade virtualenv tox tox-gh-actions coverage
 
-    - name: "Lint with flake8"
-      run: |
-        python -m tox -e flake8-critical
-
     - name: "Test with tox for ${{ matrix.python-version }}"
       run: |
         python -m tox
+        ls .cov*
+
+    - name: Upload coverage data
+      uses: actions/upload-artifact@v3
+      with:
+          name: coverage-data
+          path: ".coverage*"
+          if-no-files-found: ignore
+
+  coverage-report:
+    name: "Combined coverage"
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        name: coverage-data
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    - run: python -Im pip install --upgrade tox coverage[toml]
 
     - name: "Combine coverage"
       run: |
         set -xe
-        python -m coverage xml
+        python -m tox -e coverage-html
 
-    - name: "Upload to Codecov"
-      uses: codecov/codecov-action@v1
+        # Report and write to summary.
+        python -Im coverage report --skip-covered --skip-empty | sed 's/^/    /' >> $GITHUB_STEP_SUMMARY
+
+    - name: "Upload HTML report"
+      uses: actions/upload-artifact@v3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: true
-
-  package:
-    name: "Build & verify package"
-    runs-on: "ubuntu-latest"
-
-    steps:
-      - uses: "actions/checkout@v2"
-      - uses: "actions/setup-python@v2"
-        with:
-          python-version: "3.8"
-
-      - name: "Install setuptools, wheel and twine"
-        run: "python -m pip install setuptools wheel twine"
-      - name: "Build package"
-        run: "python -m setup bdist_wheel"
-      - name: "List result"
-        run: "ls -l dist"
-      - name: "Check long_description"
-        run: "python -m twine check dist/*"
+        name: html-report
+        path: htmlcov
