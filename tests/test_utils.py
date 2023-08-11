@@ -15,7 +15,7 @@ class MakeSafeForJSONTests(TestCase):
         result = make_safe_for_json(recorddict)
         self.assertEqual(result, recorddict)
 
-    def test_complesx_types_should_be_changed(self):
+    def test_complex_types_should_be_changed(self):
         class SomeClass:
             pass
 
