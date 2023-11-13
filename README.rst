@@ -31,6 +31,13 @@ Installation
 The pacakage on PyPI is named ``humiologging``, same as the package name.
 Install with for instance ``pip install humiologging``.
 
+Filters
+-------
+
+``humiologging.filters.NetworkContextFilter``
+    Optional filter that adds public and local ip to the log-record. Use with
+    any handler. Mostly useful for debugging.
+
 Formatters
 ----------
 

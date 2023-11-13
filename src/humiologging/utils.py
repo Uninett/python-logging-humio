@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import requests
 import socket
 
 
@@ -42,3 +43,18 @@ def make_safe_for_json(recorddict):
         if not isinstance(value, PRIMITIVE_TYPES):
             recorddict[key] = repr(value)
     return recorddict
+
+
+def find_my_public_ip():
+    response = requests.get("https://httpbin.org/ip")
+    if response.status_code == 200:
+        server_ip = response.json()['origin']
+        return server_ip
+    return None
+
+
+def find_my_local_ip():
+    try:
+        return socket.gethostbyname(socket.gethostname())
+    except socket.error:
+        return None
