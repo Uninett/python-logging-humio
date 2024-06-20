@@ -1,5 +1,3 @@
-import logging
-import sys
 from unittest import TestCase
 
 from humiologging.utils import make_safe_for_json
