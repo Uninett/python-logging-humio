@@ -2,6 +2,10 @@
 Logging to Humio
 ================
 
+.. important::
+
+   This project is moth-balled, no further development will happen by me or anyone at Sikt. Feel free to fork. Contact us for PyPI credentials.
+
 .. image:: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml/badge.svg
     :target: https://github.com/Uninett/python-logging-humio/actions/workflows/ci.yml
     :alt: CI Status
